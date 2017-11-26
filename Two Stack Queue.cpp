@@ -5,51 +5,59 @@ using namespace std;
 template <typename T>
 class TwoStackQueue
 {
-	stack<T>* MainStack;
-	stack<T>* AuxStack;
+	stack<T> MainStack;
+	stack<T> AuxStack;
 public:	
-	void enqueue(int input)
+    
+    TwoStackQueue() {};
+    ~TwoStackQueue() {};
+    
+	void enqueue(T input)
     {
-		MainStack->push(input);
+		AuxStack.push(input);
 	}
 
 	void dequeue()
 	{
-        while(!AuxStack->empty())
+        while(!AuxStack.empty())
         {
-            MainStack->push(AuxStack->top());
-            AuxStack->pop();
+            MainStack.push(AuxStack.top());
+            AuxStack.pop();
         }
         
-		MainStack->pop();
+        if(!MainStack.empty())MainStack.pop();
         
-        while(!MainStack->empty())
+        while(!MainStack.empty())
         {
-            AuxStack->push(MainStack->top());
-            MainStack->pop();
+            AuxStack.push(MainStack.top());
+            MainStack.pop();
         }
     }
     
     void printTop()
     {
-        while(!AuxStack->empty())
+        while(!AuxStack.empty())
         {
-            MainStack->push(AuxStack->top());
-            AuxStack->pop();
+            MainStack.push(AuxStack.top());
+            AuxStack.pop();
         }
         
-		cout<<MainStack->top()<<endl;
-        
-        while(!MainStack->empty())
+        if(!MainStack.empty()) cout<<MainStack.top()<<endl;
+        else 
         {
-            AuxStack->push(MainStack->top());
-            MainStack->pop();
+            cout<<"Empty"<<endl;
+        }
+        
+        while(!MainStack.empty())
+        {
+            AuxStack.push(MainStack.top());
+            MainStack.pop();
         }
     }
 };
 
 int main() {
-    TwoStackQueue<int>* TSQueue;
+    TwoStackQueue<int> TSQueue;
     
     int numberOfCommands;
     cin>>numberOfCommands;
@@ -64,10 +72,10 @@ int main() {
         {
             case 1 :
                 cin>>var;
-                TSQueue->enqueue(var);
+                TSQueue.enqueue(var);
                 break;
-            case 2 : TSQueue->dequeue(); break;
-            case 3 : TSQueue->printTop(); break;
+            case 2 : TSQueue.dequeue(); break;
+            case 3 : TSQueue.printTop(); break;
         }
     }
     return 0;
